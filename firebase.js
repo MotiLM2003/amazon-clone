@@ -1,5 +1,5 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-import app from 'firebase/app';
+import fb from 'firebase/app';
 import 'firebase/firestore';
 const firebaseConfig = {
   apiKey: 'AIzaSyBFrRdZXMVg4K3Yj620r7ZBrzlHoYMMTJo',
@@ -10,7 +10,7 @@ const firebaseConfig = {
   appId: '1:291648682131:web:37b0afda27c96f3801b566',
   measurementId: 'G-R62MBLQDTC',
 };
-if (!app) app.initializeApp(firebaseConfig);
+!fb.apps.length ? fb.initializeApp(firebaseConfig) : fb.app();
 
-const db = app.firestore();
+const db = fb.firestore();
 export default db;
