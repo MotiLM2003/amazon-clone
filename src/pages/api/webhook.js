@@ -41,11 +41,9 @@ export default async (req, res) => {
     const payload = requestBuffer.toString();
     const sig = req.headers['stripe-signature'];
 
-    console.log(' payload', payload);
     let event;
     try {
       event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-      console.log('event', event);
     } catch (err) {
       console.log('error', err);
       return res.status(400).send('webhook error');
@@ -56,10 +54,15 @@ export default async (req, res) => {
 
       return fulfillOrder(session)
         .then(() => {
-          res.status(200);
+          res.status(200).send(session);
         })
-        .catch((err) => res.status(400).send('error'));
+        .catch((err) => {
+          console.log('error', err);
+          res.status(400).send('error');
+        });
     }
+
+    res.status(400).send({ message: 'event type not found' });
   }
 };
 
